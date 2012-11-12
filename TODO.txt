@@ -1,0 +1,11 @@
+TODO
+----------
+OK Mover jugador entre cavernas
+OK Oler bestia
+
+* Recoger Flechas
+ 
+
+TAREAS EN ESTA HISTORIA:
+- Refactorizar caminos los metodos adyacentes y cavernaAdyacente
+- Refactorizar constantes de direcciones (ESTE, OESTE, ...)

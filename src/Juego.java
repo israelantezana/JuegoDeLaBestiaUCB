@@ -4,19 +4,14 @@ import java.util.List;
 
 public class Juego {
     private int cavernaDelJugador;
-    private final List<Camino> caminos = new ArrayList<Camino>();
+    private Caminos caminos = new Caminos();
     private int cavernaDeLaBestia;
     private int bolsaDeFlechas;
     private final List<Integer> flechas = new ArrayList<Integer>();
 
     public void adicionarCamino(int origen, int destino, String direccion) throws Exception {
-        adicionarCaminoSimple(origen, destino, direccion);
-        adicionarCaminoSimple(destino, origen, direccionOpuesta(direccion));
-    }
-
-    private void adicionarCaminoSimple(int origen, int destino, String direccion) {
-        Camino camino = new Camino(origen, destino, direccion);
-        caminos.add(camino);
+        caminos.adicionarCaminoSimple(origen, destino, direccion);
+        caminos.adicionarCaminoSimple(destino, origen, direccionOpuesta(direccion));
     }
 
     private String direccionOpuesta(String direccion) throws Exception {
@@ -32,26 +27,20 @@ public class Juego {
     }
 
     public boolean mover(String direccion) {
-        int destino = cavernaAdyacente(cavernaDelJugador, direccion);
+        int destino = caminos.cavernaAdyacente(cavernaDelJugador, direccion);
         if (destino != 0) {
             cavernaDelJugador = destino;
+            if(existeFlecha(destino))
+            {
+            	this.bolsaDeFlechas++;
+            	recojerFlechaDeCaverna(destino);
+            }
             return true;
         }
         return false;
-    }
+    }    
 
-    private int cavernaAdyacente(int caverna, String direccion) {
-        for (Camino c: caminos) {
-            if (c.direccion.equals(direccion) &&
-                c.origen == caverna) {
-                return c.destino;
-            }
-        }
-        return 0;
-
-    }
-
-    public int cavernaDelJugador() {
+	public int cavernaDelJugador() {
         return cavernaDelJugador;
     }
 
@@ -66,16 +55,7 @@ public class Juego {
     }
 
     public boolean puedoOlerBestia() {
-        return sonAdyacentes(cavernaDelJugador, cavernaDeLaBestia);
-    }
-
-    private boolean sonAdyacentes(int caverna1, int caverna2) {
-        for (Camino c: caminos) {
-            if ((c.origen == caverna1) &&
-               (c.destino == caverna2))
-               return true;
-        }
-        return false;
+        return caminos.sonAdyacentes(cavernaDelJugador, cavernaDeLaBestia);
     }
 
     public void ponerFlechaEnCaverna(int caverna) {
@@ -86,16 +66,32 @@ public class Juego {
         this.bolsaDeFlechas = cantidadFlechas;
     }
 
-    public int flechasEnCaverna(int caverna) {
+    public int cantidadDeflechasEnCaverna(int caverna) {
+    	for(int flechaEnCaverna : flechas)
+    	{
+    		if(flechaEnCaverna==caverna)
+    			return 1;
+    	}
         return 0;
     }
 
     public int obtenerBolsaDeFlechas() {
-        return 1;
+        return this.bolsaDeFlechas;
     }
 
     private boolean existeFlecha(int destino) {
-        return false;
+        return (cantidadDeflechasEnCaverna(destino)==1);
     }
+    
+    private void recojerFlechaDeCaverna(int caverna) {
+    	for(int i= 0; i < flechas.size(); i++)
+    	{
+    		if(flechas.get(i)==caverna)
+    		{
+    			flechas.remove(i);
+    			break;
+    		}
+    	}
+	}
 
 }

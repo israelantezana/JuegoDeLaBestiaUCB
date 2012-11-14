@@ -90,10 +90,10 @@ public class _JuegoTest {
         juego.mover("NORTE");
 
         assertEquals(1, juego.obtenerBolsaDeFlechas());
-        assertEquals(0, juego.flechasEnCaverna(2));
+        assertEquals(0, juego.cantidadDeflechasEnCaverna(2));
     }
 
-    /*@Test
+    @Test
     public void recogeDosFlechas() throws Exception {
         juego.adicionarCamino(1, 2, "NORTE");
         juego.adicionarCamino(2, 3, "ESTE");
@@ -106,10 +106,10 @@ public class _JuegoTest {
         juego.mover("ESTE");
 
         assertEquals(2, juego.obtenerBolsaDeFlechas());
-        assertEquals(0, juego.flechasEnCaverna(2));
-        assertEquals(0, juego.flechasEnCaverna(3));
+        assertEquals(0, juego.cantidadDeflechasEnCaverna(2));
+        assertEquals(0, juego.cantidadDeflechasEnCaverna(3));
 
-    }*/
+    }
 
 
 
